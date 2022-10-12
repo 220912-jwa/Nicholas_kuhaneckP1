@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Login</title>
+</head>
+<body>
+    <div id="login">
+
+        <label for="username">Username: </label>
+        <input id="username" type="text" placeholder="Enter your username"/>
+
+        <br/><br/>
+
+        <label for="password">Password: </label>
+        <input id="password" type="password" placeholder="Enter your password"/>
+
+        <br/><br/>
+
+        <button id="loginButton" type="button" onclick="login()">Log In</button>
+       
+    </div>
+    <script>
+        async function login() {
+
+            // get input 
+            uname = document.getElementById('username').value;
+            pass = document.getElementById('password').value;
+
+            let credentials = {
+                username: uname, 
+                password: pass
+            }
+
+            console.log(credentials)
+
+            credentialsJSON = JSON.stringify(credentials);
+            console.log(credentialsJSON);
+
+            
+            let baseUrl = "http://localhost:8080";
+
+            let res = await fetch(
+                            `${baseUrl}/managerLogin`, 
+                            {
+                                method: 'POST',
+                                header: {'Content-Type': 'application/json'},
+                                body: credentialsJSON
+                            }
+                        ); 
+            if (res.status === 200) {
+                let resJson = await res.json();
+                
+            } else {
+                console.log("Something went wrong.");
+            }
+          
+
+
+
+        }
+    </script>
+</body>
+</html>

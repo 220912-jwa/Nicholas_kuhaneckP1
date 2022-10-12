@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERS Form</title>
+</head>
+<body>
+    <div>
+        
+        <label for="subdate">Submission date</label>
+        <br></br>
+        <input id="subdate" type="date"/>
+        <br></br>
+        <label for="location">Course Location</label>
+        <br></br>
+        <input id="location"  type="text" >
+        <br></br>
+        <select id="courseType" name="course">
+            <option value="1">University Course</option>
+            <option value="2">Seminar</option>
+            <option value="3">Certification Prep</option>
+            <option value="4">Certification</option>
+            <option value="5">Technical Training</option>
+            <option value="6">Other</option>
+        </select>
+        <br></br>
+        <label for="courseTime">Course Time</label>
+        <br></br>
+        <input id="courseTime" type="time">
+        <br></br>
+        <label for="description">Course Description</label>
+        <br></br>
+        <input id="description" type="textarea"/>
+        <br></br>
+        <label for="cost">Course cost</label>
+        <br></br>
+        <input id="cost" type="number"/>
+        <br></br>
+    <label for="workRelation">What is the work relation?</label>
+        <br></br>
+        <input type="text"  id="workRelation">
+        <br></br>
+        <button id="submitform" type="button" onclick="logDetails()">Submit</button>
+        
+    </div>
+
+    <script>
+        let myNum = 0;
+
+    if(document.getElementById("courseType").value === "2"||document.getElementById("courseType").value === "5"||document.getElementById("courseType").value === "6"){
+        myNum=1;
+
+
+    }else{
+
+        myNum=2;
+    }
+
+
+       async function logDetails(){
+
+            let newForm ={
+
+                appId: 0,
+                submissionDate: document.getElementById("subdate").value,
+                dueDate: "",
+                location: document.getElementById("location").value,
+                status: "Under review",
+                time: document.getElementById("courseTime").value,
+                description: document.getElementById("description").value,
+                cost: document.getElementById("cost").value,
+                workRelation: document.getElementById("workRelation").value,
+                gradeFormatId: myNum,
+                courseTypeId: document.getElementById("courseType").value,
+                employee:{
+                    employeeId:1,
+                    firstName:"",
+                    lastName:"",
+                    username:"",
+                    password:"",
+                    reimbursementAmount:0
+
+
+                    
+
+                }
+                
+
+            }
+            console.log(newForm);
+
+            let appJson= JSON.stringify(newForm);
+
+            let response = await fetch('http://localhost:8080/newRequest',
+                {
+                    method: "POST",
+                    headers: {"Content-Type": "applications/json"},
+                    body: appJson
+                }
+            
+            )
+
+            if(response.status ===201){
+                let resBody = await response.json();
+                console.log(resBody)
+            }else{
+                console.log("Something went wrong");
+            }
+
+
+
+        }
+
+
+
+    </script>
+    
+</body>
+</html>

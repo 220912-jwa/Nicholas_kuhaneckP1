@@ -6,25 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Home</title>
 </head>
-<body>
+<body onload="onStartUp()">
     <div>
-        <table id="applicationTable" border="1" >
-            <th>Application Id<th>
-            <th>Submission Date</th>
-            <th>Due Date</th>
-            <th>Course Location</th>
-            <th>Course Time</th>
-            <th>Course Description</th>
-            <th>Course Cost</th>
-            <th>Work Relation</th>
-            <th>Grading Format</th>
-            <th>Course Type</th>
-            <th>Employee Id Number</th>
-            <th>Application Status</th></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
+        <table id="applicationTable"  border="1" >
+           <thead>
+                <th>Application Id</th>
+                <th>Submission Date</th>
+                <th>Due Date</th>
+                <th>Application Status</th>
+                <th>Course Description</th>
+                <th>Course Cost</th>
+                <th>Work Relation</th>
+                <th>Grading Format</th>
+                <th>Course Type</th>
+                <th>Course Time</th>
+                <th>Course Location</th>     
+                <th>Employee Id Number</th>
+                <th>Employee First Name</th>
+                <th>Employee Last Name</th>
+                <th>Reimbursement Funds Remaining</th>
+            </thead>
+        
+            <tbody id="appReviewTable">
+
+
+
+            </tbody>
+           
 
 
 
@@ -32,6 +40,122 @@
 
 
     </div>
+
+    <script>
+         
+        async function onStartUp(){
+
+            // let newForm ={
+
+            //     appId:0,
+            //     submissionDate: "",
+            //     dueDate:"",
+            //     status:"",
+            //     description: "",
+            //     cost: 0,
+            //     workRelation:"",
+            //     format:"",
+            //     course_category:"",
+            //     time:"",
+            //     location:"",
+            //     employee:{
+            //     employee_id: 0,
+            //     first_name:"",
+            //     last_name:"",
+            //     reimbursement_funds_remaining:0
+            //     }
+
+
+
+            // }
+
+
+
+
+            let tableRes = await fetch('http://localhost:8080/managerHome');
+            if (tableRes.status === 200) {
+                let resJson = await tableRes.json();
+                console.log(resJson);
+                let allApps = resJson;
+                
+                allApps.forEach(app => {updateTable(app);
+                    
+                });
+                
+
+                }
+
+
+
+         function updateTable(newForm){
+
+
+
+let newFormBody = document.getElementById("appReviewTable");
+let newFormRow = document.createElement("tr");
+
+let formIdTD= document.createElement('td');
+formIdTD.innerHTML = newForm.appId;
+
+let subDateTD = document.createElement('td');
+subDateTD.innerHTML = newForm.submissionDate;
+
+
+let dueDateTD = document.createElement('td');
+dueDateTD.innerHTML = newForm.dueDate;
+
+let statusTD = document.createElement('td');
+statusTD.innerHTML = newForm.status;
+
+
+let descriptionTD = document.createElement('td');
+descriptionTD.innerHTML = newForm.description;
+
+let costTD = document.createElement('td');
+costTD.innerHTML = newForm.cost;
+
+let workrelationTD = document.createElement('td');
+workrelationTD.innerHTML = newForm.workRelation;
+
+let gradeFormatTD = document.createElement('td');
+gradeFormatTD.innerHTML = newForm.format;
+
+let courseTypeTD = document.createElement('td');
+courseTypeTD.innerHTML = newForm.course_category;
+
+let timeTD = document.createElement('td');
+timeTD.innerHTML = newForm.time;
+
+let locationTD = document.createElement('td');
+locationTD.innerHTML = newForm.location;
+
+let eIdTD = document.createElement('td');
+eIdTD.innerHTML= newForm.employee.employeeId;
+
+let fnameTD = document.createElement('td');
+fnameTD.innerHTML = newForm.employee.firstName;
+
+let lnameTD =document.createElement('td');
+lnameTD.innerHTML = newForm.employee.lastName;
+
+let fundsTD = document.createElement('td');
+fundsTD.innerHTML = newForm.employee.reimbursementAmount;
+
+
+
+
+
+
+
+
+
+newFormRow.append(formIdTD,subDateTD,dueDateTD,statusTD,descriptionTD,costTD,workrelationTD,gradeFormatTD,courseTypeTD,timeTD,locationTD,eIdTD,fnameTD,lnameTD,fundsTD);
+newFormBody.append(newFormRow);
+
+
+
+}}
+    </script>
 
     
 </body>

@@ -51,7 +51,11 @@
                             }
                         ); 
             if (res.status === 200) {
-                let resJson = await res.json();
+                let loggedInEmployee = await res.json();
+
+
+                sessionStorage.setItem('loggedInEmployee', loggedInEmployee.employeeId);
+
                 document.location.assign("./employeeForm.html")
                 
             } else {

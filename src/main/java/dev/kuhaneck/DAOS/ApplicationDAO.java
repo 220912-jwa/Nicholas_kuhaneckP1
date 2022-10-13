@@ -73,10 +73,11 @@ public class ApplicationDAO implements GenericDAO<Application> {
     @Override
     public List<Application> getAll() {
         List<Application> appList = new ArrayList<>();
-        String sql = "select * from project1.applications a\n" +
+        String sql = "select app_id, submission_date ,due_date ,course_status ,course_description\n" +
+                ",course_cost ,work_relation ,format,course_category, course_time, course_location  ,employee_id, first_name,last_name, reimbursement_funds_remaining from project1.applications a\n" +
                 "left join project1.gradeformat g on (a.grading_format= g.format_id)\n" +
                 "left join project1.course_type ct ON (a.type_of_course = ct.course_type_id)\n" +
-                "left join project1.employees e on (a.ein=e.employee_id)";
+                "left join project1.employees e on (a.ein=e.employee_id) where course_status like 'Under review%'";
         try(Connection connection = ConnectionUtil.createConnection()){
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -86,8 +87,6 @@ public class ApplicationDAO implements GenericDAO<Application> {
                         rs.getInt("employee_id"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
-                        rs.getString("username"),
-                        rs.getString("pass"),
                         rs.getDouble("reimbursement_funds_remaining")
                 );
                 appList.add( new Application( rs.getInt("app_id"),
@@ -99,8 +98,10 @@ public class ApplicationDAO implements GenericDAO<Application> {
                         rs.getString("course_description"),
                         rs.getDouble("course_cost"),
                         rs.getString("work_relation"),
-                        rs.getInt("grading_format"),
-                        rs.getInt("type_of_course"),
+                        rs.getString("format"),
+                        rs.getString("course_category"),
+
+
                         e)
                 );
 
@@ -130,7 +131,7 @@ public class ApplicationDAO implements GenericDAO<Application> {
     }
 
 
-    public Application createNew(Application application, Employee employee) {
+    public Application createNew(Application application) {
         String sql ="with new_app as (insert into project1.applications values (default,to_date(?,'YYYY-MM-DD') ,to_date(?,'YYYY-MM-DD'),?,?,?,?,?,?,?,?,?) returning *)\n" +
                 "select * from new_app a left join project1.gradeformat g on(a.grading_format=g.format_id)\n" +
                 "left join project1.course_type ct on(a.type_of_course = ct.course_type_id)\n" +
@@ -138,7 +139,7 @@ public class ApplicationDAO implements GenericDAO<Application> {
 
         // Unsure how to add enums into the creation process without changing parameters.
 
-        Employee em = employee;
+
 
         try(Connection connection = ConnectionUtil.createConnection()){
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -152,7 +153,7 @@ public class ApplicationDAO implements GenericDAO<Application> {
             ps.setString(8, application.getWorkRelation());
             ps.setInt(9, application.getGradeFormatId());
             ps.setInt(10, application.getCourseTypeId());
-            ps.setInt(11, em.getEmployeeId());
+            ps.setInt(11, application.getEmployee().getEmployeeId());
 
             ResultSet rs = ps.executeQuery();
             if(rs.next()){

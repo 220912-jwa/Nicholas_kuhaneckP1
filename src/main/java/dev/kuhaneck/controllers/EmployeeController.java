@@ -19,16 +19,19 @@ public class EmployeeController {
     }
 
     public void getAllAppsForEmployee(Context ctx){
-    Employee employee = ctx.sessionAttribute("loggedInEmployee");
+
+        int id = Integer.parseInt(ctx.pathParam("ID"));
       ctx.status(200);
 
-        ctx.json(employeeService.getEmployeesApps(employee.getEmployeeId()));
+        ctx.json(employeeService.getEmployeesApps(id));
     }
 
     public void submitNewApp(Context ctx){
         Application app = ctx.bodyAsClass(Application.class);
         Employee employee = ctx.sessionAttribute("loggedInEmployee");
-        Application application = employeeService.createNewApp(app,employee);
+        Application application = employeeService.createNewApp(app);
+
+        ctx.json(application);
 
 
 

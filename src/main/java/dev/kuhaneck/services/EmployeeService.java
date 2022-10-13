@@ -28,9 +28,9 @@ public class EmployeeService {
 
     }
 
-    public Application createNewApp(Application app, Employee employee){
+    public Application createNewApp(Application app){
 
-        return applicationDAO.createNew(app, employee);
+        return applicationDAO.createNew(app);
 
     }
     public Employee login(String username, String password) {

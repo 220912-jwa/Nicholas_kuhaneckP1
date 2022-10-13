@@ -22,6 +22,13 @@ public class Employee {
         this.reimbursementAmount = reimbursementAmount;
     }
 
+    public Employee(int employee_id, String first_name, String last_name, double reimbursement_funds_remaining) {
+        this.employeeId=employee_id;
+        this.firstName=first_name;
+        this.lastName=last_name;
+        this.reimbursementAmount=reimbursement_funds_remaining;
+    }
+
     public int getEmployeeId() {
         return employeeId;
     }

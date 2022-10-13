@@ -16,6 +16,26 @@ public class Application {
     private int gradeFormatId;
     private int courseTypeId;
 
+    private String format;
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getCourse_category() {
+        return course_category;
+    }
+
+    public void setCourse_category(String course_category) {
+        this.course_category = course_category;
+    }
+
+    private String course_category;
+
     private Employee employee;
 
     public Application() {
@@ -36,6 +56,21 @@ public class Application {
         this.gradeFormatId = gradingFormat;
         this.courseTypeId = courseType;
         this.employee = employee;
+    }
+
+    public Application(int app_id, String submission_date, String due_date, String course_location, String course_status, String course_time, String course_description, double course_cost, String work_relation, String format, String course_category, Employee e) {
+        this.appId = app_id;
+        this.submissionDate =submission_date ;
+        this.dueDate = due_date;
+        this.location = course_location;
+        this.status = course_status;
+        this.time = course_time;
+        this.description = course_description;
+        this.cost = course_cost;
+        this.workRelation =work_relation ;
+        this.format = format;
+        this.course_category=course_category;
+        this.employee=e;
     }
 
     public int getAppId() {

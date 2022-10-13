@@ -17,10 +17,11 @@ public class LoginController {
     public Handler employeeLogin = ctx->{
         Employee e = ctx.bodyAsClass(Employee.class);
         Employee authenticatedEmployee = loginService.login(e.getUsername(),e.getPassword());
-        ctx.sessionAttribute("loggedInEmployee", authenticatedEmployee);
+//        ctx.sessionAttribute("loggedInEmployee", authenticatedEmployee);
 
         if(authenticatedEmployee != null){
             ctx.status(200);
+
             ctx.json(authenticatedEmployee);
         }
 

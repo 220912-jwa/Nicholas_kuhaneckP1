@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERS Form</title>
 </head>
-<body>
+<body onload="loadUserCred()">
     <div>
         
         <label for="subdate">Submission date</label>
@@ -46,7 +46,67 @@
         
     </div>
 
+    <div id="tableData" class="container">
+         <br></br>
+         <br></br>
+         <br></br>
+         <table border="1" id="formTable" calss="table">
+            <thead>
+                <tr>
+                    <td>Form Id</td>
+                    <td>Submission Date</td>
+                    <td>Due Date</td>
+                    <td>Satus</td>
+                    <td>Location</td>
+                    <td>Time</td>
+                    <td>Description</td>
+                    <td>Cost</td>
+                    <td>Work Relation</td>
+                </tr>
+            </thead>
+            <tbody id="formTableBody">
+
+            </tbody>
+
+
+
+
+
+         </table>
+
+
+
+
+    </div>
+
+
+
+    
+
     <script>
+
+        
+        async function loadUserCred(){
+
+            
+
+            let employeesID =sessionStorage.getItem('loggedInEmployee');
+            console.log(employeesID);
+            let ID = employeesID;
+           
+            let tableRes = await fetch(`http://localhost:8080/employeeHome/${ID}`)
+
+            if (tableRes.status === 200) {
+                let resJson = await tableRes.json();
+                console.log(resJson);
+                let allApps = resJson;
+                
+                allApps.forEach(element => {updateTable(element);
+                    
+                });
+                
+
+                }
         let myNum = 0;
 
     if(document.getElementById("courseType").value === "2"||document.getElementById("courseType").value === "5"||document.getElementById("courseType").value === "6"){
@@ -57,6 +117,15 @@
 
         myNum=2;
     }
+        function myDueDate(){let myDate = document.getElementById("subdate").value;
+            
+        var dueDate = new Date(myDate);
+        dueDate.setDate(dueDate.getDate() + 14);
+        return dueDate;    
+    }
+        
+                
+            
 
 
        async function logDetails(){
@@ -65,7 +134,7 @@
 
                 appId: 0,
                 submissionDate: document.getElementById("subdate").value,
-                dueDate: "",
+                dueDate: myDueDate(),
                 location: document.getElementById("location").value,
                 status: "Under review",
                 time: document.getElementById("courseTime").value,
@@ -75,13 +144,8 @@
                 gradeFormatId: myNum,
                 courseTypeId: document.getElementById("courseType").value,
                 employee:{
-                    employeeId:1,
-                    firstName:"",
-                    lastName:"",
-                    username:"",
-                    password:"",
-                    reimbursementAmount:0
-
+                    employeeId: sessionStorage.getItem('loggedInEmployee')
+                    
 
                     
 
@@ -102,9 +166,10 @@
             
             )
 
-            if(response.status ===201){
+            if(response.status ===200){
                 let resBody = await response.json();
-                console.log(resBody)
+                console.log(resBody);
+                updateTable(resBody);
             }else{
                 console.log("Something went wrong");
             }
@@ -112,8 +177,47 @@
 
 
         }
+        function updateTable(newForm){
+
+            let newFormBody = document.getElementById("formTableBody");
+            let newFormRow = document.createElement("tr");
+
+            let formIdTD= document.createElement('td');
+            formIdTD.innerHTML = newForm.appId;
+
+            let subDateTD = document.createElement('td');
+            subDateTD.innerHTML = newForm.submissionDate;
+            
+
+            let dueDateTD = document.createElement('td');
+            dueDateTD.innerHTML = newForm.dueDate;
+
+            let statusTD = document.createElement('td');
+            statusTD.innerHTML = newForm.status;
+
+            let locationTD = document.createElement('td');
+            locationTD.innerHTML = newForm.location;
+
+            let timeTD = document.createElement('td');
+            timeTD.innerHTML = newForm.time;
+
+            let descriptionTD = document.createElement('td');
+            descriptionTD.innerHTML = newForm.description;
+
+            let costTD = document.createElement('td');
+            costTD.innerHTML = newForm.cost;
+
+            let workrelationTD = document.createElement('td');
+            workrelationTD.innerHTML = newForm.workRelation;
+
+            newFormRow.append(formIdTD, subDateTD,dueDateTD,statusTD,locationTD,timeTD,descriptionTD,costTD,workrelationTD);
+            newFormBody.append(newFormRow);
 
 
+
+        }
+
+        }
 
     </script>
     

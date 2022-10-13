@@ -16,15 +16,15 @@ public class ManagerController {
     }
 
     public void getAllApplications(Context ctx){
-        Manager manager = ctx.sessionAttribute("loggedInManager");
+
         ctx.status(200);
         ctx.json(managerService.getAllApplications());
 
     }
     public void submitNewApp(Context ctx){
         ManagerApp mapp = ctx.bodyAsClass(ManagerApp.class);
-        Manager manager = ctx.sessionAttribute("loggedInManager");
-        ManagerApp managerApp = managerService.createNewApp(mapp,manager);
+
+        ManagerApp managerApp = managerService.createNewApp(mapp);
 
 
 

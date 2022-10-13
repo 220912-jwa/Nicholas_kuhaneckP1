@@ -52,6 +52,8 @@
                         ); 
             if (res.status === 200) {
                 let resJson = await res.json();
+
+                document.location.assign("./MangerHome.html")
                 
             } else {
                 console.log("Something went wrong.");

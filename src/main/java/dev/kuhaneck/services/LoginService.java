@@ -23,6 +23,7 @@ public class LoginService {
         Employee employee = employeeDAO.getEmployeeByUsername(username);
         if (employee.getPassword().equals(password)) {
             System.out.println("logged in");
+            System.out.println(employee);
             return  employee;
         } else {
             System.out.println("whoops");

@@ -1,11 +1,11 @@
 package dev.kuhaneck.entities;
 
-import java.sql.Date;
+
 
 public class ManagerApp {
     private int appId;
-    private Date submissionDate;
-    private Date dueDate;
+    private String submissionDate;
+    private String dueDate;
     private String location;
     private String status;
     private String time;
@@ -20,7 +20,7 @@ public class ManagerApp {
     public ManagerApp() {
     }
 
-    public ManagerApp(int appId, Date submissionDate, Date dueDate, String location, String status, String time,
+    public ManagerApp(int appId, String submissionDate, String dueDate, String location, String status, String time,
                        String description, double cost, String workRelation, int courseTypeId,
                        int gradeFormatId, Manager manager) {
         this.appId = appId;
@@ -45,19 +45,19 @@ public class ManagerApp {
         this.appId = appId;
     }
 
-    public Date getSubmissionDate() {
+    public String getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(Date submissionDate) {
+    public void setSubmissionDate(String submissionDate) {
         this.submissionDate = submissionDate;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 

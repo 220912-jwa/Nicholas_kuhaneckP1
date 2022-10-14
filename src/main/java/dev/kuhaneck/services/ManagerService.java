@@ -28,9 +28,9 @@ public class ManagerService {
         return applicationDAO.getAll();
 
     }
-    public ManagerApp createNewApp(ManagerApp app){
+    public ManagerApp createNewApp(ManagerApp mapp){
 
-        return managerAppDAO.createManagerApp(app);
+        return managerAppDAO.createManagerApp(mapp);
 
     }
 

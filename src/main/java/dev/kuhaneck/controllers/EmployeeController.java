@@ -2,7 +2,7 @@ package dev.kuhaneck.controllers;
 
 
 import dev.kuhaneck.entities.Application;
-import dev.kuhaneck.entities.Employee;
+
 import dev.kuhaneck.services.EmployeeService;
 import io.javalin.http.Context;
 
@@ -28,7 +28,7 @@ public class EmployeeController {
 
     public void submitNewApp(Context ctx){
         Application app = ctx.bodyAsClass(Application.class);
-        Employee employee = ctx.sessionAttribute("loggedInEmployee");
+
         Application application = employeeService.createNewApp(app);
 
         ctx.json(application);

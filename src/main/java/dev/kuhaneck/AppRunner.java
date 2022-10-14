@@ -44,15 +44,9 @@ public class AppRunner {
         app.post("/employeeLogin", loginController.employeeLogin);
         app.get("/managerHome", managerController::getAllApplications);
         app.get("/employeeHome/{ID}", ec::getAllAppsForEmployee );
-//        app.get("/session", ctx -> {
-//            if (ctx.sessionAttribute("loggedInUser") != null) {
-//                ctx.json(ctx.sessionAttribute("loggedinEmployee"));
-//            } else {
-//                ctx.json("No user is logged in atm");
-//            }
-//
-//        });
+
         app.post("/newRequest",ec::submitNewApp);
+        app.post("/newApp", managerController::submitNewManagerApp);
 
 
 }

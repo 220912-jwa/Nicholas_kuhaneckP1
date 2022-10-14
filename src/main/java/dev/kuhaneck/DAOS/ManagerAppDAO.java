@@ -1,6 +1,7 @@
 package dev.kuhaneck.DAOS;
 
-import dev.kuhaneck.entities.*;
+import dev.kuhaneck.entities.ManagerApp;
+import dev.kuhaneck.entities.Manager;
 import dev.kuhaneck.utils.ConnectionUtil;
 
 import java.sql.Connection;
@@ -34,8 +35,8 @@ public class ManagerAppDAO implements GenericDAO<ManagerApp>{
 
                 ManagerApp managerApp = new ManagerApp(
                         rs.getInt("app_id"),
-                        rs.getDate("submission_date"),
-                        rs.getDate("due_date"),
+                        rs.getString("submission_date"),
+                        rs.getString("due_date"),
                         rs.getString("course_location"),
                         rs.getString("course_status"),
                         rs.getString("course_time"),
@@ -66,7 +67,7 @@ public class ManagerAppDAO implements GenericDAO<ManagerApp>{
 
     @Override
     public ManagerApp create(ManagerApp managerApp) {
-        return null;
+        return managerApp;
     }
 
 
@@ -74,15 +75,15 @@ public class ManagerAppDAO implements GenericDAO<ManagerApp>{
         String sql ="with new_app as (insert into project1.managerapps values (default,to_date(?,'YYYY-MM-DD') ,to_date(?,'YYYY-MM-DD'),?,?,?,?,?,?,?,?,?) returning *)\n" +
                 "select * from new_app a left join project1.gradeformat g on(a.grading_format=g.format_id)\n" +
                 "left join project1.course_type ct on(a.type_of_course = ct.course_type_id)\n" +
-                "left join project1.employees e on(a.ein=e.employee_id)\n";
+                "left join project1.managers e on(a.m_id=e.manager_id)\n";
 
-        // Unsure how to add enums into the creation process without changing parameters.
+
 
 
         try(Connection connection = ConnectionUtil.createConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setDate(1, managerApp.getSubmissionDate());
-            ps.setDate(2, managerApp.getDueDate());
+            ps.setString(1, managerApp.getSubmissionDate());
+            ps.setString(2, managerApp.getDueDate());
             ps.setString(3, managerApp.getStatus());
             ps.setString(4, managerApp.getLocation());
             ps.setString(5, managerApp.getTime());
@@ -93,6 +94,12 @@ public class ManagerAppDAO implements GenericDAO<ManagerApp>{
             ps.setInt(10, managerApp.getCourseTypeId());
             ps.setInt(11, managerApp.getManager().getManagerId());
 
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                managerApp.setAppId(rs.getInt("app_id"));
+                return managerApp;
+
+            }
 
         }catch (SQLException e){
             e.printStackTrace();

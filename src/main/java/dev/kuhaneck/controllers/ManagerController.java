@@ -1,7 +1,7 @@
 package dev.kuhaneck.controllers;
 
 
-import dev.kuhaneck.entities.Manager;
+
 import dev.kuhaneck.entities.ManagerApp;
 import dev.kuhaneck.services.ManagerService;
 import io.javalin.http.Context;
@@ -21,10 +21,13 @@ public class ManagerController {
         ctx.json(managerService.getAllApplications());
 
     }
-    public void submitNewApp(Context ctx){
-        ManagerApp mapp = ctx.bodyAsClass(ManagerApp.class);
+    public void submitNewManagerApp(Context ctx){
+      ManagerApp managerApp = ctx.bodyAsClass(ManagerApp.class);
 
-        ManagerApp managerApp = managerService.createNewApp(mapp);
+      ManagerApp myApp = managerService.createNewApp(managerApp);
+        System.out.println(myApp);
+
+      ctx.json(myApp);
 
 
 

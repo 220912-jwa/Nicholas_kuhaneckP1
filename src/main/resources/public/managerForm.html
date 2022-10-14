@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <title>Manager Form Submission</title>
+</head>
+<body onload="loadUserCred()">
+
+    <div>
+        
+        <label for="subdate">Submission date</label>
+        <br></br>
+        <input id="subdate" type="date"/>
+        <br></br>
+        <label for="location">Course Location</label>
+        <br></br>
+        <input id="location"  type="text" >
+        <br></br>
+        <select id="courseType" name="course">
+            <option value="1">University Course</option>
+            <option value="2">Seminar</option>
+            <option value="3">Certification Prep</option>
+            <option value="4">Certification</option>
+            <option value="5">Technical Training</option>
+            <option value="6">Other</option>
+        </select>
+        <br></br>
+        <label for="courseTime">Course Time</label>
+        <br></br>
+        <input id="courseTime" type="time">
+        <br></br>
+        <label for="description">Course Description</label>
+        <br></br>
+        <input id="description" type="textarea"/>
+        <br></br>
+        <label for="cost">Course cost</label>
+        <br></br>
+        <input id="cost" type="number"/>
+        <br></br>
+    <label for="workRelation">What is the work relation?</label>
+        <br></br>
+        <input type="text"  id="workRelation">
+        <br></br>
+        <button id="submitform" type="button" onclick="logDetails()">Submit</button>
+        
+    </div>
+
+
+    <script>
+        async function loadUserCred(){
+        let managersID =sessionStorage.getItem('loggedInManager');
+            console.log(managersID);
+
+}
+let myNum = 0;
+
+      if(document.getElementById("courseType").value === "2"||document.getElementById("courseType").value === "5"||document.getElementById("courseType").value === "6"){
+        myNum=1;
+            }else{
+                 myNum=2;
+             }
+            function myDueDate(){let myDate = document.getElementById("subdate").value;
+            
+             var dueDate = new Date(myDate);
+                dueDate.setDate(dueDate.getDate() + 14);
+                return dueDate;    
+    }
+
+
+async function logDetails(){
+
+  
+
+        let newForm ={
+
+    appId: 0,
+    submissionDate: document.getElementById("subdate").value,
+    dueDate: myDueDate(),
+    location: document.getElementById("location").value,
+    status: "Approved",
+    time: document.getElementById("courseTime").value,
+    description: document.getElementById("description").value,
+    cost: document.getElementById("cost").value,
+    workRelation: document.getElementById("workRelation").value,
+    gradeFormatId: myNum,
+    courseTypeId: document.getElementById("courseType").value,
+    manager:{
+        managerId: sessionStorage.getItem('loggedInManager')
+        }
+
+        
+
+    
+    
+
+        }
+        console.log(newForm);
+        
+
+        let manApp = JSON.stringify(newForm);
+        console.log(manApp);
+
+        let response = await fetch('http://localhost:8080/newApp',
+            {
+        method: "POST",
+        headers: {"Content-Type": "applications/json"},
+        body: manApp
+            }
+
+            )
+
+if(response.status ===200){
+    let resBody = await response.json();
+    console.log(resBody);
+    
+}else{
+    console.log("Something went wrong");
+}
+
+
+
+}
+    </script>
+    
+</body>
+</html>

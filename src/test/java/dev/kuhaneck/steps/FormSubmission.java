@@ -59,8 +59,8 @@ public class FormSubmission {
     @When("the employee selects a course time")
     public void the_employee_selects_a_course_time() {
 
-        WebElement timeInput = driver.findElement(By.id("courseType"));
-        timeInput.sendKeys("14:00");
+        WebElement timeInput = driver.findElement(By.id("courseTime"));
+        timeInput.sendKeys("1400");
 
     }
     @When("the employee fills out the description input")

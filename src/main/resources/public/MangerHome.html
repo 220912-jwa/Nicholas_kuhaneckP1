@@ -25,6 +25,7 @@
                 <th>Employee First Name</th>
                 <th>Employee Last Name</th>
                 <th>Reimbursement Funds Remaining</th>
+                <th></th>
             </thead>
         
             <tbody id="appReviewTable">
@@ -51,7 +52,25 @@
     </div>
 
     <script>
-         
+         function getAllMovePage(){
+
+        let formId = document.getElementsByTagName('td')[0].innerHTML;
+
+        
+        
+        console.log(formId);
+        let CostId = document.getElementsByTagName('td')[5].innerHTML;
+        sessionStorage.setItem("cost", CostId);
+        
+        sessionStorage.setItem("appId", formId);
+
+        document.location.assign("./managerEdit.html")
+
+
+
+            }
+
+
         async function onStartUp(){
 
 
@@ -127,6 +146,8 @@ lnameTD.innerHTML = newForm.employee.lastName;
 let fundsTD = document.createElement('td');
 fundsTD.innerHTML = newForm.employee.reimbursementAmount;
 
+let editTD = document.createElement('td');
+editTD.innerHTML = `<button type='button' onclick="getAllMovePage()">Edit</button>`
 
 
 
@@ -135,12 +156,16 @@ fundsTD.innerHTML = newForm.employee.reimbursementAmount;
 
 
 
-newFormRow.append(formIdTD,subDateTD,dueDateTD,statusTD,descriptionTD,costTD,workrelationTD,gradeFormatTD,courseTypeTD,timeTD,locationTD,eIdTD,fnameTD,lnameTD,fundsTD);
+
+newFormRow.append(formIdTD,subDateTD,dueDateTD,statusTD,descriptionTD,costTD,workrelationTD,gradeFormatTD,courseTypeTD,timeTD,locationTD,eIdTD,fnameTD,lnameTD,fundsTD, editTD);
 newFormBody.append(newFormRow);
 
 
 
 }}
+ 
+
+
     </script>
 
     

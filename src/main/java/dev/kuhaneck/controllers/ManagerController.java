@@ -2,6 +2,7 @@ package dev.kuhaneck.controllers;
 
 
 
+import dev.kuhaneck.entities.Application;
 import dev.kuhaneck.entities.ManagerApp;
 import dev.kuhaneck.services.ManagerService;
 import io.javalin.http.Context;
@@ -32,5 +33,35 @@ public class ManagerController {
 
 
     }
+    public void getAppById(Context ctx){
+        int id = Integer.parseInt(ctx.pathParam("ID"));
+        ctx.status(200);
+
+
+        ctx.json(managerService.getAppById(id));
+
+    }
+
+    public void updateApp(Context ctx){
+        String status = ctx.pathParam("status");
+        int id = Integer.parseInt(ctx.pathParam("ID"));
+
+        ctx.status(200);
+
+
+        managerService.updateApp(status,id);
+    }
+
+    public void updateEmployeeFunds(Context ctx){
+        double funds = Double.parseDouble(ctx.pathParam("costDeduction"));
+
+
+        System.out.println(funds);
+        int id = Integer.parseInt(ctx.pathParam("ID"));
+        ctx.status(200);
+
+        managerService.updateEmployeeFunds(funds,id);
+    }
+
 
 }

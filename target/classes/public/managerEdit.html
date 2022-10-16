@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approval Page</title>
+</head>
+<body onload="loadAppData()">
+
+
+    <table id="applicationTable"  border="1" >
+        <thead>
+             <th>Application Id</th>
+             <th>Submission Date</th>
+             <th>Due Date</th>
+             <th>Application Status</th>
+             <th>Course Description</th>
+             <th>Course Cost</th>
+             <th>Work Relation</th>
+             <th>Grading Format</th>
+             <th>Course Type</th>
+             <th>Course Time</th>
+             <th>Course Location</th>     
+             <th>Employee Id Number</th>
+             <th>Employee First Name</th>
+             <th>Employee Last Name</th>
+             <th>Reimbursement Funds Remaining</th>
+             <th></th>
+         </thead>
+     
+         <tbody id="appReviewTable">
+
+
+
+         </tbody>
+        
+
+
+
+     </table>
+
+
+     
+     <br></br>
+     <label for="calculateButton"> Calculate suggested reimbursement:</label>
+     <button id="calculateButton" type="button" onclick="suggestedCost()">Calculate</button>
+     <br></br>
+     
+     
+     <p>
+     Sugessted reimbursement amount: <span id="suggested"></span>
+    
+
+    </p>
+    <p> <br></br>
+        <label for="Reimbursementamount">Reimbursement Amount</label>
+        <input id="Reimbursementamount" type="number">
+        <button id="approve" type="button" onclick="approveIt()">Approve Reimbursement</button>
+        <button id="deny" type="button" onclick="denyIt()">Deny</button>
+    </p>
+
+
+
+
+    <script>
+        async function updateFunds(){
+            let ID = sessionStorage.getItem('loggedInManager');
+            let costDeduction =JSON.stringify((remaining-document.getElementById("Reimbursementamount").value));
+                console.log(costDeduction);
+            let resposneB = await fetch(`http://localhost:8080/funds/${ID}/${costDeduction}`,
+                
+            {
+                    method: 'POST',
+                    headers:{'Content-Type': 'application/json'},
+                    body:""
+
+
+                }
+            
+            
+            );
+        }
+
+
+
+        async function approveIt(){
+            remaining = document.getElementsByTagName('td')[14].innerHTML;
+            console.log(remaining);
+
+            
+
+            let status = "Approved";
+            let ID = sessionStorage.getItem('appId');
+            
+
+
+            let resBody = await fetch(`http://localhost:8080/updateApp/${ID}/${status}`,
+
+                {
+                    method: 'POST',
+                    headers:{'Content-Type': 'application/json'},
+                    body:""
+
+
+                }
+
+            
+            
+
+            );
+                       updateFunds();
+
+
+                alert("Form Approved.");
+
+        }
+        async function denyIt(){
+            let status = "Denied";
+            let ID = sessionStorage.getItem('appId');
+
+
+            let resBody = fetch(`http://localhost:8080/updateApp/${ID}/${status}`,
+
+                {
+                    method: 'POST',
+                    headers:{'Content-Type': 'application/json'},
+                    body:""
+
+
+                }
+            
+            
+            
+            );
+
+            alert("Form Denied.");
+        }
+
+
+
+
+
+
+
+        function suggestedCost(){
+            console.log("made it here")
+        let courseCost = document.getElementsByTagName('td')[5].innerHTML;
+        let deduction = 0;
+        let category = document.getElementsByTagName('td')[8].innerHTML;
+        let totalReimbursement = 0;
+        switch(category){
+            case 'UNIVERSITY_COURSES': totalReimbursement =(courseCost*.8);
+            console.log("and here");
+            deduction = totalReimbursement;
+        
+            document.getElementById("suggested").innerText = deduction ;
+            break;
+          
+            case 'SEMINARS': totalReimbursement =(courseCost*.6)
+            console.log("and here");
+            deduction = totalReimbursement;
+        
+            document.getElementById("suggested").innerText = deduction ;
+            break;
+            
+            case 'CERTIFICATION_PREP': totalReimbursement =(courseCost*.75)
+            console.log("and here");
+            deduction = totalReimbursement;
+        
+            document.getElementById("suggested").innerText = deduction ;
+            break;
+            
+            case 'CERTIFICATION': totalReimbursement =(courseCost*1)
+            console.log("and here");
+            deduction = totalReimbursement;
+        
+            document.getElementById("suggested").innerText = deduction ;
+            break;
+            
+            case 'TECHNICAL_TRAINING': totalReimbursement =(courseCost*.9)
+            console.log("and here");
+            deduction = totalReimbursement;
+        
+            document.getElementById("suggested").innerText = deduction ;
+            break;
+            
+            case 'OTHER': totalReimbursement =(courseCost*.3)
+             console.log("and here");
+            deduction = totalReimbursement;
+        
+            document.getElementById("suggested").innerText = deduction ;
+            break;
+            
+        }
+        
+        
+        
+        document.getElementById("suggested").innerText = deduction ;
+        }
+
+
+
+
+        async function loadAppData(){
+            let ID = sessionStorage.getItem("appId");
+            
+           let resBody = await fetch(`http://localhost:8080/currentApp/${ID}`) 
+            
+           if(resBody.status ===200){
+                console.log(resBody);
+            let resJson = await resBody.json();
+            
+            updateTable(resJson);
+
+            
+            
+
+           }
+
+
+        }
+
+
+        function updateTable(newForm){
+
+
+
+let newFormBody = document.getElementById("appReviewTable");
+let newFormRow = document.createElement("tr");
+
+let formIdTD= document.createElement('td');
+formIdTD.innerHTML = newForm.appId;
+
+let subDateTD = document.createElement('td');
+subDateTD.innerHTML = newForm.submissionDate;
+
+
+let dueDateTD = document.createElement('td');
+dueDateTD.innerHTML = newForm.dueDate;
+
+let statusTD = document.createElement('td');
+statusTD.innerHTML = newForm.status;
+
+
+let descriptionTD = document.createElement('td');
+descriptionTD.innerHTML = newForm.description;
+
+let costTD = document.createElement('td');
+costTD.innerHTML = newForm.cost;
+
+let workrelationTD = document.createElement('td');
+workrelationTD.innerHTML = newForm.workRelation;
+
+let gradeFormatTD = document.createElement('td');
+gradeFormatTD.innerHTML = newForm.format;
+
+let courseTypeTD = document.createElement('td');
+courseTypeTD.innerHTML = newForm.course_category;
+
+let timeTD = document.createElement('td');
+timeTD.innerHTML = newForm.time;
+
+let locationTD = document.createElement('td');
+locationTD.innerHTML = newForm.location;
+
+let eIdTD = document.createElement('td');
+eIdTD.innerHTML= newForm.employee.employeeId;
+
+let fnameTD = document.createElement('td');
+fnameTD.innerHTML = newForm.employee.firstName;
+
+let lnameTD =document.createElement('td');
+lnameTD.innerHTML = newForm.employee.lastName;
+
+let fundsTD = document.createElement('td');
+fundsTD.innerHTML = newForm.employee.reimbursementAmount;
+
+newFormRow.append(formIdTD,subDateTD,dueDateTD,statusTD,descriptionTD,costTD,workrelationTD,gradeFormatTD,courseTypeTD,timeTD,locationTD,eIdTD,fnameTD,lnameTD,fundsTD);
+newFormBody.append(newFormRow);
+
+
+
+}
+
+
+
+    </script>
+    
+</body>
+</html>

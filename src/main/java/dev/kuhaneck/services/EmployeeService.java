@@ -33,17 +33,7 @@ public class EmployeeService {
         return applicationDAO.createNew(app);
 
     }
-//    public Employee login(String username, String password) {
-//        Employee employee = employeeDAO.getEmployeeByUsername(username);
-//        if (employee.getPassword().equals(password)) {
-//            System.out.println("logged in");
-//            return  employee;
-//        } else {
-//            System.out.println("whoops");
-//        }
-//        return null;
-//
-//    }
+
 
 
 

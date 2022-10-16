@@ -148,4 +148,23 @@ public class EmployeeDAO implements  GenericDAO<Employee> {
 
 
     }
+
+    public void updateEmployeeFund(double funds, int id){
+
+        String sql = "update project1.employees set reimbursement_funds_remaining = ? where employee_id =?";
+        try(Connection connection = ConnectionUtil.createConnection()){
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setDouble(1,funds);
+            ps.setInt(2, id);
+
+            ps.execute();
+
+
+
+        }catch(SQLException e ){
+            e.printStackTrace();
+        }
+
+
+    }
 }

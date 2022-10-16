@@ -19,16 +19,18 @@ public class ApplicationDAO implements GenericDAO<Application> {
 
 
 
-    @Override
+    @Override//modify this like the current manager get by status
     public Application getById(int id) {
         try(Connection connection = ConnectionUtil.createConnection()){
-            String sql = "select from project1.applications a\n" +
-                    "left join grading_format g on (a.grading_format= g.format_id)\n" +
-                    "left join course_type ct ON (a.type_of_course = ct.course_type_id)\n" +
-                    "left join employees e on (a.ein=e.employee_id)  where a.app_id =?";
+            String sql = "select app_id, submission_date ,due_date ,course_status ,course_description\n" +
+                    ",course_cost ,work_relation ,format,course_category, course_time, course_location  ,employee_id, first_name,last_name, reimbursement_funds_remaining from project1.applications a\n" +
+                    "left join project1.gradeformat g on (a.grading_format= g.format_id)\n" +
+                    "left join project1.course_type ct ON (a.type_of_course = ct.course_type_id)\n" +
+                    "left join project1.employees e on (a.ein=e.employee_id) where a.app_id =?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
+
 
             if(rs.next()){
 
@@ -36,8 +38,6 @@ public class ApplicationDAO implements GenericDAO<Application> {
                         rs.getInt("employee_id"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
-                        rs.getString("username"),
-                        rs.getString("pass"),
                         rs.getDouble("reimbursement_funds_remaining")
                 );
 
@@ -51,12 +51,12 @@ public class ApplicationDAO implements GenericDAO<Application> {
                         rs.getString("course_description"),
                         rs.getDouble("course_cost"),
                         rs.getString("work_relation"),
-                       rs.getInt("grading_format"),
-                        rs.getInt("type_of_course"),
+                        rs.getString("format"),
+                        rs.getString("course_category"),
                         e
 
+                );                        ps.close();
 
-                );
                 return application;
 
             }
@@ -74,7 +74,8 @@ public class ApplicationDAO implements GenericDAO<Application> {
     public List<Application> getAll() {
         List<Application> appList = new ArrayList<>();
         String sql = "select app_id, submission_date ,due_date ,course_status ,course_description\n" +
-                ",course_cost ,work_relation ,format,course_category, course_time, course_location  ,employee_id, first_name,last_name, reimbursement_funds_remaining from project1.applications a\n" +
+                ",course_cost ,work_relation ,format,course_category, course_time, course_location  ,employee_id, first_name,last_name," +
+                " reimbursement_funds_remaining from project1.applications a\n" +
                 "left join project1.gradeformat g on (a.grading_format= g.format_id)\n" +
                 "left join project1.course_type ct ON (a.type_of_course = ct.course_type_id)\n" +
                 "left join project1.employees e on (a.ein=e.employee_id) where course_status like 'Under review%'";
@@ -100,8 +101,6 @@ public class ApplicationDAO implements GenericDAO<Application> {
                         rs.getString("work_relation"),
                         rs.getString("format"),
                         rs.getString("course_category"),
-
-
                         e)
                 );
 
@@ -128,6 +127,11 @@ public class ApplicationDAO implements GenericDAO<Application> {
     @Override
     public Application create(Application application) {
         return null;
+    }
+
+    @Override
+    public void update(Application tUpdate) {
+
     }
 
 
@@ -175,14 +179,16 @@ public class ApplicationDAO implements GenericDAO<Application> {
 
         return null;
     }
-    @Override
-    public void update(Application aUpdate) {
-        String sql = "update project1.applications set status =? where app_id = ?";
+
+    public void updated(String status, int id) {
+        String sql = "update project1.applications set course_status =? where app_id = ?";
         try(Connection connection = ConnectionUtil.createConnection()){
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, aUpdate.getStatus());
-            ps.setInt(2, aUpdate.getAppId());
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            System.out.println(status);
             ps.execute();
+            ps.close();
 
 
 

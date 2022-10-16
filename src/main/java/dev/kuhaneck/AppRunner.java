@@ -30,7 +30,7 @@ public class AppRunner {
 
      EmployeeService employeeService = new EmployeeService(employeeDAO, applicationDAO);
      EmployeeController ec = new EmployeeController(employeeService);
-     ManagerService managerService = new ManagerService(managerDAO,applicationDAO, managerAppDAO);
+     ManagerService managerService = new ManagerService(managerDAO,applicationDAO, managerAppDAO, employeeDAO);
      ManagerController managerController = new ManagerController(managerService);
 
 
@@ -47,6 +47,10 @@ public class AppRunner {
 
         app.post("/newRequest",ec::submitNewApp);
         app.post("/newApp", managerController::submitNewManagerApp);
+        app.get("/currentApp/{ID}", managerController::getAppById);
+
+        app.post("/updateApp/{ID}/{status}", managerController::updateApp);
+        app.post("/funds/{ID}/{costDeduction}", managerController::updateEmployeeFunds);
 
 
 }

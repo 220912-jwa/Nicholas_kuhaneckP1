@@ -1,6 +1,7 @@
 package dev.kuhaneck.services;
 
 import dev.kuhaneck.DAOS.ApplicationDAO;
+import dev.kuhaneck.DAOS.EmployeeDAO;
 import dev.kuhaneck.DAOS.ManagerAppDAO;
 import dev.kuhaneck.DAOS.ManagerDAO;
 import dev.kuhaneck.entities.Application;
@@ -15,13 +16,16 @@ public class ManagerService {
 
     private ManagerAppDAO managerAppDAO;
     private ApplicationDAO applicationDAO;
+    private EmployeeDAO employeeDAO;
 
     private ManagerDAO managerDAO;
 
-    public ManagerService (ManagerDAO managerDAO, ApplicationDAO applicationDAO, ManagerAppDAO managerAppDAO){
+    public ManagerService (ManagerDAO managerDAO, ApplicationDAO applicationDAO, ManagerAppDAO managerAppDAO, EmployeeDAO employeeDAO){
         this.managerDAO = managerDAO;
         this.managerAppDAO = managerAppDAO;
         this.applicationDAO = applicationDAO;
+        this.employeeDAO = employeeDAO;
+
     }
     public List<Application> getAllApplications(){
 
@@ -34,6 +38,20 @@ public class ManagerService {
 
     }
 
+    public Application getAppById(int id){
+        return applicationDAO.getById(id);
+
+    }
+    public void updateApp(String status, int id){
+
+        applicationDAO.updated(status, id);
+    }
+
+    public void updateEmployeeFunds(double funds, int id){
+        System.out.println(funds);
+        employeeDAO.updateEmployeeFund(funds, id);
+
+    }
 
 
 }

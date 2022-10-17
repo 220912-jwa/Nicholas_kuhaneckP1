@@ -33,5 +33,6 @@ public class RequestApproval {
     @Then("the manager should see an alert that the request was denied")
     public void the_manager_should_see_an_alert_that_the_request_was_denied() {
         Assertions.assertTrue(ExpectedConditions.alertIsPresent()!= null);
+        driver.switchTo().alert().accept();
     }
 }

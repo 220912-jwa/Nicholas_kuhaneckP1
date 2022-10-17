@@ -5,8 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Login</title>
+    <style>
+        .bodyclass{
+    background-color: rgb(230, 149, 0);
+}
+.buttons{
+    border-radius: 7px;
+    color: rgb(128, 94, 0);
+    background-color: black;
+    margin: auto;
+    width: 3in;   
+    font-size: larger;
+    position: fixed;
+    left: 3%;
+    font-style:italic;
+}
+
+</style>
 </head>
-<body>
+<body class="bodyclass">
     <div id="login">
 
         <label for="username">Username: </label>
@@ -19,7 +36,7 @@
 
         <br/><br/>
 
-        <button id="loginButton" type="button" onclick="login()">Log In</button>
+        <button class="buttons" id="loginButton" type="button" onclick="login()">Log In</button>
        
     </div>
     <script>

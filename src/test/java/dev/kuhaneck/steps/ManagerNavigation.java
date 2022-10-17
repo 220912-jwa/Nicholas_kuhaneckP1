@@ -27,8 +27,8 @@ public class ManagerNavigation {
     }
     @Then("the manager should be on the page titled {string}")
     public void the_manager_should_be_on_the_page_titled(String string) {
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(2));
-        wait.until(ExpectedConditions.titleIs("Approval Page"));
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.titleIs(string));
         String title = driver.getTitle();
         Assertions.assertEquals(string, title);
 

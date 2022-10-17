@@ -5,10 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Home</title>
+    <style>
+        .bodyclass{
+    background-color: rgb(255, 145, 0);
+}
+.buttons{
+    border-radius: 7px;
+    color: rgb(214, 139, 27);
+    background-color: black;
+    margin: auto;
+     
+    font-size: larger;
+  
+    font-style:italic;
+}
+
+</style>
 </head>
-<body onload="onStartUp()">
+<body class="bodyclass" onload="onStartUp()">
     <div>
-        <table id="applicationTable"  border="1" >
+        <table class="tableclass" id="applicationTable"  border="1" >
            <thead>
                 <th>Application Id</th>
                 <th>Submission Date</th>
@@ -147,7 +163,7 @@ let fundsTD = document.createElement('td');
 fundsTD.innerHTML = newForm.employee.reimbursementAmount;
 
 let editTD = document.createElement('td');
-editTD.innerHTML = `<button type='button' onclick="getAllMovePage()">Edit</button>`
+editTD.innerHTML = `<button class="buttons" type='button' onclick="getAllMovePage()">Edit</button>`
 
 
 

@@ -91,14 +91,17 @@ public class FormSubmission {
     WebElement submitButton = driver.findElement(By.id("submitform"));
     submitButton.click();
 
+
     }
     @Then("the employee should see the form added to the forms table")
-    public void the_employee_should_see_the_form_added_to_the_forms_table() {
+    public void the_employee_should_see_the_form_added_to_the_forms_table() throws InterruptedException {
+        Thread.sleep(4000);
         String relation ="Direct";
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(4));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tbody/tr[last()]/td[last()]")));
 
         WebElement relationCell = driver.findElement(By.xpath("//tbody/tr[last()]/td[last()]"));
+
         Assertions.assertEquals(relation, relationCell.getText());
     }
 

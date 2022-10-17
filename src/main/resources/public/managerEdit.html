@@ -5,6 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Approval Page</title>
+    <style>
+        .bodyclass{
+    background-color: rgb(255, 174, 0);
+}
+.buttons{
+    border-radius: 7px;
+    color: rgb(128, 83, 0);
+    background-color: black;
+    margin: auto;
+    
+    font-size: larger;
+   
+    font-style:italic;
+}
+
+</style>
 </head>
 <body onload="loadAppData()">
 
@@ -44,7 +60,7 @@
      
      <br></br>
      <label for="calculateButton"> Calculate suggested reimbursement:</label>
-     <button id="calculateButton" type="button" onclick="suggestedCost()">Calculate</button>
+     <button class="buttons" id="calculateButton" type="button" onclick="suggestedCost()">Calculate</button>
      <br></br>
      
      

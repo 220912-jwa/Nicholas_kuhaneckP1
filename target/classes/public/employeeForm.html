@@ -5,8 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERS Form</title>
+    <style>
+                .bodyclass{
+            background-color: red;
+        }
+        .buttons{
+            border-radius: 7px;
+            color: green;
+            background-color: black;
+            margin: auto;
+            width: 3in;   
+            font-size: larger;
+            position: fixed;
+            left: 43%;
+            font-style:italic;
+        }
+        .tableclass{
+            position: fixed;
+            left: 20%;
+        }
+    </style>
 </head>
-<body onload="loadUserCred()">
+<body class="bodyclass" onload="loadUserCred()">
     <div>
         
         <label for="subdate">Submission date</label>
@@ -42,7 +62,7 @@
         <br></br>
         <input type="text"  id="workRelation">
         <br></br>
-        <button id="submitform" type="button" onclick="logDetails()">Submit</button>
+        <button class="buttons" id="submitform" type="button" onclick="logDetails()">Submit</button>
         
     </div>
 
@@ -50,7 +70,7 @@
          <br></br>
          <br></br>
          <br></br>
-         <table border="1" id="formTable" calss="table">
+         <table class="tableclass" border="1" id="formTable" calss="table">
             <thead>
                 <tr>
                     <td>Form Id</td>

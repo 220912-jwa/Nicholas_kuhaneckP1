@@ -5,12 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        .bodyclass{
+            background-color: red;
+        }
+        .buttons{
+            border-radius: 7px;
+            color: green;
+            background-color: black;
+            margin: auto;
+            width: 3in;   
+            font-size: larger;
+            position: fixed;
+            left: 43%;
+            font-style:italic;
+        }
+        .headers{
+            margin: auto;
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            
+        }
+
+
+    </style>
+
 </head>
-<body>
+<body class="bodyclass">
     <div>
-    <button id="employeePage" type="button" onclick="redirectEmployee()">Employee Login</button>
+        <h1 class="headers">Welcome to the Employe reimbursement system.</h1>
+    <button class="buttons" id="employeePage" type="button" onclick="redirectEmployee()">Employee Login</button>
         <br></br>
-    <button id="managerPage" type="button" onclick="redirectManager()">Manager Login</button>
+    <button class="buttons" id="managerPage" type="button" onclick="redirectManager()">Manager Login</button>
 
 
 </div>

@@ -21,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -39,6 +41,9 @@ public class EmployeeServiceTest {
     private static ApplicationDAO mockApplicationDAO;
     @Mock
     private Employee mockEmployeeWithGoodCreds;
+
+    @Mock
+    private List<Application> applicationList;
 
 
 
@@ -81,6 +86,8 @@ public class EmployeeServiceTest {
               mockEmployeeWithGoodCreds
 
       );
+      applicationList = new ArrayList<>(Arrays.asList(mockApp));
+
 
 
     }
@@ -91,4 +98,14 @@ public class EmployeeServiceTest {
         Application app = employeeService.createNewApp(mockApp);
 
         Assertions.assertNotNull(app);   }
+
+    @Test
+    public void getAllForEmployeeTest(){
+        when(mockApplicationDAO.getAllByEIN(mockEmployeeWithGoodCreds.getEmployeeId())).thenReturn(applicationList);
+        List<Application> applications = employeeService.getEmployeesApps(mockEmployeeWithGoodCreds.getEmployeeId());
+
+        Assertions.assertNotNull(applications);
+
+    }
+
 }
